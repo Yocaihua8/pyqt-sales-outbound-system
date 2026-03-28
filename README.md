@@ -1,4 +1,4 @@
-# 进销存管理系统 / Inventory Management System
+﻿# 进销存管理系统 / Inventory Management System
 
 一个基于 **Python + PyQt6 + SQLite** 开发的桌面端进销存管理系统，面向中小型业务场景下的登录认证、仪表盘、基础资料维护、销售出库、采购入库、库存管理、商品管理、仓库管理、用户管理等业务流程。
 
@@ -64,61 +64,38 @@ The current version already includes core modules such as login, dashboard, comp
 pyqt-sales-outbound-system
 ├─ config/                           # 外部配置文件
 │  └─ company_profile.json
+├─ database/                         # SQLite 数据库文件
+│  └─ warehouse.db
+├─ logs/                             # 运行日志
+│  └─ app.log
 ├─ src/
-│  ├─ DataAccessObjects/             # 数据库连接与底层 DAO 操作
+│  ├─ DataAccessObjects/             # 数据访问层（DAO + 门面 + 兼容入口）
+│  │  ├─ db_connections.py
+│  │  ├─ db_context.py
+│  │  ├─ db_facade.py                # 门面聚合
+│  │  ├─ db_ops_inventory.py
+│  │  ├─ db_ops_sales.py
+│  │  ├─ db_ops_master_data.py
+│  │  ├─ db_dao.py                   # DAO 兼容聚合
+│  │  ├─ db_dao_common.py
+│  │  ├─ db_dao_inventory.py
+│  │  ├─ db_dao_sales.py
+│  │  └─ db_dao_master_data.py
 │  ├─ config/                        # 页面字段与内部配置
 │  ├─ controllers/                   # 控制器层
 │  ├─ core/                          # 核心常量、模型、单位等
-│  ├─ repositories/                  # 数据访问抽象层
-│  │  ├─ auth_repository.py
-│  │  ├─ dashboard_repository.py
-│  │  ├─ inbound_repository.py
-│  │  ├─ outbound_repository.py
-│  │  ├─ product_repository.py
-│  │  ├─ sales_order_repository.py
-│  │  ├─ sales_outbound_repository.py
-│  │  ├─ stock_repository.py
-│  │  ├─ user_repository.py
-│  │  └─ warehouse_repository.py
-│  ├─ services/                      # 业务服务层
-│  │  ├─ auth_service.py
-│  │  ├─ basic_info_service.py
-│  │  ├─ company_archive_service.py
-│  │  ├─ company_profile_service.py
-│  │  ├─ customer_archive_service.py
-│  │  ├─ dashboard_service.py
-│  │  ├─ document_form_service.py
-│  │  ├─ document_page_state_service.py
-│  │  ├─ document_table_service.py
-│  │  ├─ inbound_page_service.py
-│  │  ├─ inbound_service.py
-│  │  ├─ main_window_navigation_service.py
-│  │  ├─ outbound_page_service.py
-│  │  ├─ outbound_service.py
-│  │  ├─ product_service.py
-│  │  ├─ sales_order_list_service.py
-│  │  ├─ sales_outbound_printer.py
-│  │  ├─ sales_outbound_service.py
-│  │  ├─ stock_service.py
-│  │  ├─ user_service.py
-│  │  └─ warehouse_service.py
-│  └─ ui/                            # UI 界面层
-│     ├─ base_document_page.py
-│     ├─ basic_info_page.py
-│     ├─ company_info_page.py
-│     ├─ customer_info_page.py
-│     ├─ dashboard_page.py
-│     ├─ inbound_manager.py
-│     ├─ login.py
-│     ├─ main_window.py
-│     ├─ outbound_manager.py
-│     ├─ product_manager.py
-│     ├─ sales_order_list_page.py
-│     ├─ sales_outbound_page.py
-│     ├─ sales_outbound_query_page.py
-│     ├─ stock_manager.py
-│     ├─ user_manager.py
-│     └─ warehouse_manager.py
+│  └─ modules/                       # 业务模块（UI / Service / Repository）
+│     ├─ app/
+│     ├─ auth/
+│     ├─ dashboard/
+│     ├─ documents/
+│     ├─ inventory/
+│     ├─ master_data/
+│     ├─ product/
+│     ├─ sales/
+│     ├─ stock/
+│     ├─ user/
+│     └─ warehouse/
 ├─ main.py                           # 程序入口
 └─ requirements.txt                  # 项目依赖
 ```
@@ -215,3 +192,28 @@ This is an independently developed project. I was responsible for the full lifec
 
 - GitHub Profile: [Yocaihua8](https://github.com/Yocaihua8)
 - Repository: [pyqt-sales-outbound-system](https://github.com/Yocaihua8/pyqt-sales-outbound-system)
+
+---
+
+## Minimum Regression Checklist
+
+Use this checklist after environment setup or before release:
+
+- Login succeeds with a valid user
+- Switch user works and returns to login dialog
+- Add and edit one product record
+- Add and edit one warehouse record
+- Create one inbound record and verify stock increases
+- Create one outbound record and verify stock decreases
+- Create and save one sales outbound order
+- Query the saved sales outbound order and open detail page
+- Open print preview from sales outbound page without errors
+
+---
+
+## Encoding Convention
+
+- Read project text files explicitly with UTF-8 encoding.
+- Write project text files explicitly with UTF-8 encoding.
+
+

@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMessageBox
 
-from src.services.sales_outbound_service import SalesOutboundService
+from src.modules.sales.services.sales_outbound_service import SalesOutboundService
 
 
 class SalesOutboundDetailController:
